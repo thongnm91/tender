@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tender Portal</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .menu { display: flex; background-color: #333; padding: 10px; }
+        .menu a { color: white; padding: 14px 20px; text-decoration: none; text-align: center; }
+        .menu a:hover { background-color: #ddd; color: black; }
+        .container { padding: 20px; }
+        .login-form, .tender-list { margin-top: 20px; }
+        .login-form input { padding: 10px; margin: 5px 0; width: 100%; }
+        .tender-list ul { list-style-type: none; padding: 0; }
+        .tender-list li { margin: 5px 0; padding: 10px; background-color: #f4f4f4; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="menu">
+    <a href="index.html">Home</a>
+    <a href="tenders.html">Browse Tenders</a>
+    <a href="login.html">Login</a>
+</div>
+
+<div class="container">
+    <h2>Welcome to Tender Portal</h2>
+
+    <!-- Login Form -->
+    <div class="login-form">
+        <h3>Login</h3>
+        <form action="login_process.php" method="POST">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <!-- Tender List (Displayed after login) -->
+    <div class="tender-list">
+        <h3>Browse Available Tenders</h3>
+        <ul id="tenderList">
+            <!-- Tenders will be populated here by JavaScript -->
+        </ul>
+    </div>
+</div>
+
+<script>
+// Simple JS to load tenders dynamically (In real-world, this would be dynamic from the database)
+const tenders = [
+    { title: 'Tender 1', description: 'Description for Tender 1' },
+    { title: 'Tender 2', description: 'Description for Tender 2' },
+    { title: 'Tender 3', description: 'Description for Tender 3' }
+];
+
+const tenderListElement = document.getElementById('tenderList');
+tenders.forEach(tender => {
+    const tenderItem = document.createElement('li');
+    tenderItem.innerHTML = `<strong>${tender.title}</strong><p>${tender.description}</p>`;
+    tenderListElement.appendChild(tenderItem);
+});
+</script>
+
+</body>
+</html>
