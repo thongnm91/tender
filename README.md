@@ -12,3 +12,15 @@ An online tender management website is digital platform for organizations invite
 - Manage submissions, evaluations, and awards
 - Automate workflows (deadlines, notifications, compliance checks)
 - Ensure transparency & fairness in procurement
+
+## Webstructure
+### Database
+#### MySQL: 
+- https://mariadb.vamk.fi/
+- Table & Relation ship
+
+#### PHP API
+- Handle REQUEST_METHOD: GET, POST, PUT, DELETE
+
+#### JavaScript
+- Handle Fetch API to DOM Element.
