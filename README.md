@@ -17,7 +17,7 @@ An online tender management website is digital platform for organizations invite
 ### Database
 #### MySQL: 
 - https://mariadb.vamk.fi/
-- Table & Relation ship
+- Figure DB Table & Relationship: ...
 
 #### PHP API
 - Handle REQUEST_METHOD: GET, POST, PUT, DELETE
