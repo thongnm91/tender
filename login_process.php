@@ -1,8 +1,16 @@
 <?php
 session_start();
-require 'db_connection.php'; // Database connection file
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+// Now we check if the data from the login form was submitted, isset() will check if the data exists
+if (!isset($_POST['email'], $_POST['password'])) {
+    // Could not get the data that should have been sent
+    exit('Please fill both the username and password fields!');
+}
+else {
+	//echo "abc";
+	require 'db_connection.php'; // Database connection file
+	
     $email = $_POST['email'];
     $password = $_POST['password'];
 
@@ -11,31 +19,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
-
-    // Check if user exists and password is correct
+	
+	// // Check if user exists and password is correct
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
-
-        // Verify password
-		echo $user['email'];
-		echo $user['password'];
-        if ($password == $user['password']) {
-            // Store user info in session
-            $_SESSION['user_id'] = $user['user_id'];
+        
+        if ($_POST['password'] === $password) {
             $_SESSION['name'] = $user['name'];
-            $_SESSION['address'] = $user['address'];
-            $_SESSION['user_type'] = $user['user_type'];
-            $_SESSION['lock_status'] = $user['lock_status'];
+            $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['email'] = $user['email'];
-
-            // Redirect to the profile page after successful login
-            header("Location: profile.php");
+            $_SESSION['user_type'] = $user['user_type'];
+            $_SESSION['password'] = $user['password'];
+            $_SESSION['loggedin'] = true;
+            
+            header("Location: home.php");
             exit;
-        } else {
-            echo "Invalid password.";
         }
-    } else {
-        echo "No user found with that email.";
-    }
+		else {
+			echo "Can't not fetch";
+		}
+	}
+	else {
+		header("Location: index.html");
+		exit;
+	}
 }
 ?>

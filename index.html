@@ -4,63 +4,185 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tender Portal</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        .menu { display: flex; background-color: #333; padding: 10px; }
-        .menu a { color: white; padding: 14px 20px; text-decoration: none; text-align: center; }
-        .menu a:hover { background-color: #ddd; color: black; }
-        .container { padding: 20px; }
-        .login-form, .tender-list { margin-top: 20px; }
-        .login-form input { padding: 10px; margin: 5px 0; width: 100%; }
-        .tender-list ul { list-style-type: none; padding: 0; }
-        .tender-list li { margin: 5px 0; padding: 10px; background-color: #f4f4f4; border-radius: 5px; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Header Navigation -->
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="brand">Tender Portal</div>
+            <ul class="nav-links">
+                <li><a href="home.php">Home</a></li>
+            </ul>
 
-<div class="menu">
-    <a href="index.html">Home</a>
-    <a href="tenders.html">Browse Tenders</a>
-    <a href="login.html">Login</a>
-</div>
+            <div class="login-box">
+                <form action="login_process.php" method="POST" class="login-form">
+                    <input type="text" name="email" placeholder="Email" required>
+                    <input type="text" name="password" placeholder="Password" required>
+                    <button type="submit" class="btn-small">Login</button>
+                </form>
+            </div>
+        </nav>
+    </header>
 
-<div class="container">
-    <h2>Welcome to Tender Portal</h2>
+    <!-- Main Content -->
+    <main class="container">
+        <section class="welcome-banner">
+            <h1>Welcome to Tender Portal</h1>
+            <p></p>
+        </section>
 
-    <!-- Login Form -->
-    <div class="login-form">
-        <h3>Login</h3>
-        <form action="login_process.php" method="POST">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
-    </div>
+        <!-- Browse Tender Section -->
+        <section class="search-section">
+            <h2>Search Tenders</h2>
+            <form action="browse_tender_process.php" method="POST" class="search-form">
+                <input type="text" name="search" placeholder="Search by tender name or ID..." required>
+                <button type="submit" class="btn-primary">Search</button>
+            </form>
+        </section>
 
-    <!-- Tender List (Displayed after login) -->
-    <div class="tender-list">
-        <h3>Browse Available Tenders</h3>
-        <ul id="tenderList">
-            <!-- Tenders will be populated here by JavaScript -->
-        </ul>
-    </div>
-</div>
+        <!-- Tender List Table -->
+        <section class="tender-list">
+            <div class="table-responsive">
+			<button class="create-btn" onclick="openModal('createTenderModal')">Create New Tender</button>
+			<table class="tender-table" style="display: none;">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Tender Name</th>
+						<th>Category</th>
+						<th>Status</th>
+						<th>Estimated Price</th>
+						<th>Closing Date</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody id="tender-data">
+					<!-- Tender data will be loaded here -->
+				</tbody>
+			</table>
+            </div>
+        </section>
 
-<script>
-// Simple JS to load tenders dynamically (In real-world, this would be dynamic from the database)
-const tenders = [
-    { title: 'Tender 1', description: 'Description for Tender 1' },
-    { title: 'Tender 2', description: 'Description for Tender 2' },
-    { title: 'Tender 3', description: 'Description for Tender 3' }
-];
+    </main>
 
-const tenderListElement = document.getElementById('tenderList');
-tenders.forEach(tender => {
-    const tenderItem = document.createElement('li');
-    tenderItem.innerHTML = `<strong>${tender.title}</strong><p>${tender.description}</p>`;
-    tenderListElement.appendChild(tenderItem);
-});
-</script>
+    <footer class="main-footer">
+        <p>Thong-e2301482 - Tender Project - Agile Software Development</p>
+    </footer>
 
+    <script>
+        // API endpoint
+        const API_URL = 'api_tender.php';
+
+        // Function to format price with commas
+        function formatPrice(price) {
+            if (!price) return '<span class="empty-value">Not set</span>';
+            return '$' + parseFloat(price).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+
+        // Function to format date
+        function formatDate(dateString) {
+            if (!dateString) return '<span class="empty-value">Not set</span>';
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        // Function to determine status
+        function getStatus(tender) {
+            const today = new Date();
+            const closeDate = tender.tender_close_date ? new Date(tender.tender_close_date) : null;
+            
+            if (!closeDate) return '<span class="status-badge status-pending">Pending</span>';
+            if (today > closeDate) return '<span class="status-badge status-closed">Closed</span>';
+            return '<span class="status-badge status-open">Open</span>';
+        }
+
+        // Function to populate the table
+        function populateTenderTable(tenders) {
+            const tableBody = document.getElementById('tender-data');
+            tableBody.innerHTML = ''; // Clear any existing data
+            
+            tenders.forEach(tender => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td id="${tender.tender_id}">${tender.tender_id}</td>
+                    <td>
+                        <strong>${tender.tender_name}</strong><br>
+                        <small>${tender.business_category}</small>
+                    </td>
+                    <td>${tender.business_category}</td>
+                    <td>${getStatus(tender)}</td>
+                    <td class="price">${formatPrice(tender.estimated_price)}</td>
+                    <td>${formatDate(tender.tender_close_date)}</td>
+                    <td class="action-buttons">
+						<button class="detail-btn" onclick="">Detail</button>
+					</td>
+                `;
+                
+                // Add click event to show details (could be a modal in real implementation)
+                row.addEventListener('click', () => {
+                    alert(`Tender Details:\n\nName: ${tender.tender_name}\nDescription: ${tender.tender_description}\nCategory: ${tender.business_category}\nStatus: ${getStatus(tender).replace(/<[^>]*>/g, '')}\nClosing: ${formatDate(tender.tender_close_date).replace(/<[^>]*>/g, '')}\nPrice: ${formatPrice(tender.estimated_price).replace(/<[^>]*>/g, '')}`);
+                });
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Show the table and hide loading message
+            document.querySelector('.tender-table').style.display = 'table';
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        // Function to handle errors
+        function handleError(error) {
+            //console.error('Error fetching tender data:', error);
+            //document.getElementById('loading').style.display = 'none';
+            const errorDiv = document.getElementById('error');
+            //errorDiv.textContent = `Failed to load tender data: ${error.message}`;
+            //errorDiv.style.display = 'block';
+        }
+
+        // Fetch tender data from API
+        async function fetchTenderData() {
+            try {
+                const response = await fetch(API_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (!Array.isArray(data)) {
+                    throw new Error('Invalid data format received from API');
+                }
+                
+                populateTenderTable(data);
+            } catch (error) {
+                handleError(error);
+            }
+        }
+
+        // Initialize the table when page loads
+        document.addEventListener('DOMContentLoaded', fetchTenderData);
+		
+		// Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+		
+		// Show error message
+        function showError(message) {
+            console.log('POST Request Data:', message);
+        }
+		
+
+
+		
+    </script>
 </body>
 </html>

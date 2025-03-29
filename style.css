@@ -1,0 +1,379 @@
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Header Styles */
+.main-header {
+    background-color: #1a237e;
+    color: white;
+    padding: 0.5rem 2rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Navigation Styles */
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #04AA6D;
+}
+
+.login-form {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+    .login-form input {
+        padding: 0.3rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+
+/* Main Content Styles */
+.container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.welcome-banner {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    background-color: #e8eaf6;
+    border-radius: 8px;
+}
+
+.search-form {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+    .search-form input {
+        flex: 1;
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+/* Table Styles */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.tender-list table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.tender-list th,
+.tender-list td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.tender-list th {
+    background-color: #1a237e;
+    color: white;
+}
+
+.tender-list tr:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+/* Status Badges */
+.status-open {
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #1a237e;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-bid {
+    background-color: #2196F3;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Tender Detail Styles */
+.tender-detail {
+    margin-top: 2rem;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.detail-table {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+    .detail-table td {
+        padding: 0.8rem;
+        border-bottom: 1px solid #eee;
+    }
+
+.bidding-table {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+}
+
+/* Footer Styles */
+.main-footer {
+    background-color: #1a237e;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem
+}
+/*Table list*/
+button, input[type="submit"] {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 2px;
+}
+.detail-btn {
+    background-color: #2196F3;
+    color: white;
+}
+.create-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+.edit-btn {
+    background-color: #FFC107;
+    color: black;
+}
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+}
+.bid-btn {
+    background-color: #9C27B0;
+    color: white;
+}
+.confirm-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+.cancel-btn {
+    background-color: #607D8B;
+    color: white;
+}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        input[type="text"], input[type="date"], textarea {
+            width: 100%;
+            padding: 6px;
+            box-sizing: border-box;
+        }
+        .editable {
+            background-color: #fffde7;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 5px;
+        }
+		
+		
+
+.tender-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tender-table thead tr {
+    background-color: #3498db;
+    color: #ffffff;
+    text-align: left;
+}
+
+.tender-table th,
+.tender-table td {
+    padding: 12px 15px;
+}
+
+.tender-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.tender-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.tender-table tbody tr:last-of-type {
+    border-bottom: 2px solid #3498db;
+}
+
+.tender-table tbody tr:hover {
+    background-color: #e3f2fd;
+    cursor: pointer;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.status-open {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.status-closed {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.status-pending {
+    background-color: #f39c12;
+    color: white;
+}
+
+.price {
+    font-weight: bold;
+    color: #27ae60;
+}
+
+.empty-value {
+    color: #95a5a6;
+    font-style: italic;
+}
+
+.action-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8em;
+    margin-right: 5px;
+}
+
+.view-btn {
+    background-color: #3498db;
+    color: white;
+}
+
+.bid-btn {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.details-btn {
+    background-color: #9b59b6;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .tender-table {
+        display: block;
+        overflow-x: auto;
+    }
+}
