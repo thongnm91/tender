@@ -1,0 +1,102 @@
+Table: tender_1
+id	int(11) Auto Increment	
+tender_id	varchar(50) NULL	
+tender_name	varchar(255) NULL	
+tender_date	date NULL	
+business_category	varchar(100) NULL	
+tender_description	text NULL	
+construction_term	varchar(255) NULL	
+estimated_price	decimal(15,2) NULL	
+tender_start_date	date NULL	
+tender_close_date	date NULL	
+winner_disclosure_date	date NULL	
+winner_name	varchar(255) NULL	
+register_company_number	varchar(50) NULL	
+tender_price	decimal(15,2) NULL
+
+Table: User
+user_id	int(11) Auto Increment	
+name	varchar(100)	
+email	varchar(100)	
+password	varchar(255)	
+address	text NULL	
+user_type	enum('city','company')	
+lock_status	tinyint(1) NULL [0]	
+created_at	timestamp [current_timestamp()]	
+
+
+
+-- 1. User Table (existing)
+CREATE TABLE IF NOT EXISTS User (
+    user_id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    address TEXT,
+    user_type ENUM('city', 'company') NOT NULL,
+    lock_status TINYINT(1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. Company Profiles Table
+CREATE TABLE IF NOT EXISTS company_profiles (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(11) NOT NULL,
+    company_name VARCHAR(255) NOT NULL,
+    registration_number VARCHAR(50) NOT NULL,
+    address TEXT,
+    phone VARCHAR(20),
+    website VARCHAR(255),
+    business_type VARCHAR(100),
+    established_date DATE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
+    UNIQUE KEY unique_registration (registration_number)
+);
+
+-- 3. Tender Categories Table
+CREATE TABLE IF NOT EXISTS tender_categories (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(100) NOT NULL,
+    description TEXT,
+    parent_id INT(11),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (parent_id) REFERENCES tender_categories(id) ON DELETE SET NULL,
+    UNIQUE KEY unique_category (category_name)
+);
+
+-- 4. Tender Table (modified existing)
+CREATE TABLE IF NOT EXISTS tender_1 (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    tender_id VARCHAR(50) UNIQUE,
+    tender_name VARCHAR(255) NOT NULL,
+    tender_date DATE,
+    business_category VARCHAR(100),
+    tender_description TEXT,
+    construction_term VARCHAR(255),
+    estimated_price DECIMAL(15,2),
+    tender_start_date DATE,
+    tender_close_date DATE,
+    winner_disclosure_date DATE,
+    winner_name VARCHAR(255),
+    register_company_number VARCHAR(50),
+    tender_price DECIMAL(15,2),
+    created_by INT(11),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (created_by) REFERENCES User(user_id),
+    FOREIGN KEY (business_category) REFERENCES tender_categories(category_name)
+);
+
+-- 7. Bids Table
+CREATE TABLE IF NOT EXISTS bids (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    tender_id INT(11) NOT NULL,
+    company_id INT(11) NOT NULL,
+    bid_amount DECIMAL(15,2) NOT NULL,
+    notes TEXT,
+    submission_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('pending', 'accepted', 'rejected') DEFAULT 'pending',
+    FOREIGN KEY (tender_id) REFERENCES tender_1(id) ON DELETE CASCADE,
+    FOREIGN KEY (company_id) REFERENCES User(user_id),
+    UNIQUE KEY unique_bid (tender_id, company_id)
+);

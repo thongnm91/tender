@@ -44,7 +44,6 @@
         <!-- Tender List Table -->
         <section class="tender-list">
             <div class="table-responsive">
-			<button class="create-btn" onclick="openModal('createTenderModal')">Create New Tender</button>
 			<table class="tender-table" style="display: none;">
 				<thead>
 					<tr>
@@ -106,7 +105,7 @@
                 const row = document.createElement('tr');
                 
                 row.innerHTML = `
-                    <td id="${tender.tender_id}">${tender.tender_id}</td>
+                    <td id="${tender.id}">${tender.id}</td>
                     <td>
                         <strong>${tender.tender_name}</strong><br>
                         <small>${tender.business_category}</small>
